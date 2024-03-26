@@ -4938,6 +4938,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fe9c0cdd7b514c4495a8cd1deee56b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  informationController: {fileID: 0}
   wholeDiceGameObject: {fileID: 0}
   diceForm: {fileID: 0}
   diceEyes: {fileID: 0}
@@ -6226,6 +6227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d02acc89da9af94aa0e302d1c5e551d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  informationController: {fileID: 0}
   numberOfDice: 0
   numberOfEyes: 0
   diceType: 
@@ -7239,6 +7241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fe9c0cdd7b514c4495a8cd1deee56b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  informationController: {fileID: 0}
   wholeDiceGameObject: {fileID: 1879692626}
   diceForm: {fileID: 1319096864}
   diceEyes: {fileID: 1812904574}

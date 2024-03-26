@@ -526,6 +526,7 @@ GameObject:
   - component: {fileID: 177835388}
   - component: {fileID: 177835387}
   - component: {fileID: 177835386}
+  - component: {fileID: 177835389}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -618,6 +619,26 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &177835389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 177835384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 623ae7f61ff16ce41ad821cc8d6fba1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  throwingDiceButton: {fileID: 1871290949}
+  diceAmountTextField: {fileID: 771931004}
+  eyesAmountTextField: {fileID: 1735967187}
+  multiColoured: {fileID: 28606781}
+  colourDiceDropDownFirst: {fileID: 1720606453}
+  colourDropDownSecond: {fileID: 1634236733}
+  quitButton: {fileID: 1818384146}
+  informationController: {fileID: 0}
 --- !u!1 &177893483
 GameObject:
   m_ObjectHideFlags: 0
@@ -3201,7 +3222,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 34.05
+  m_fontSize: 53.7
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5176,6 +5197,7 @@ GameObject:
   - component: {fileID: 1818384148}
   - component: {fileID: 1818384147}
   - component: {fileID: 1818384146}
+  - component: {fileID: 1818384149}
   m_Layer: 0
   m_Name: Quit Button
   m_TagString: Untagged
@@ -5200,8 +5222,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0.0010529, y: 30}
-  m_SizeDelta: {x: -598.594, y: 60}
+  m_AnchoredPosition: {x: -4.4089966, y: 30}
+  m_SizeDelta: {x: -521.423, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1818384146
 MonoBehaviour:
@@ -5246,7 +5268,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1818384147}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1818384149}
+        m_TargetAssemblyTypeName: MenuScript, Assembly-CSharp
+        m_MethodName: Stop
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1818384147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5285,6 +5319,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1818384144}
   m_CullTransparentMesh: 1
+--- !u!114 &1818384149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818384144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 623ae7f61ff16ce41ad821cc8d6fba1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  throwingDiceButton: {fileID: 0}
+  diceAmountTextField: {fileID: 0}
+  eyesAmountTextField: {fileID: 0}
+  multiColoured: {fileID: 0}
+  colourDiceDropDownFirst: {fileID: 0}
+  colourDropDownSecond: {fileID: 0}
+  quitButton: {fileID: 0}
+  informationController: {fileID: 0}
 --- !u!1 &1840698298
 GameObject:
   m_ObjectHideFlags: 0
@@ -5411,8 +5465,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -39}
-  m_SizeDelta: {x: -540.076, y: 60.925}
+  m_AnchoredPosition: {x: 2.191986, y: -39}
+  m_SizeDelta: {x: -472.148, y: 60.925}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1871290949
 MonoBehaviour:
@@ -5457,7 +5511,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1871290950}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 177835389}
+        m_TargetAssemblyTypeName: MenuScript, Assembly-CSharp
+        m_MethodName: startThrowing
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1871290950
 MonoBehaviour:
   m_ObjectHideFlags: 0

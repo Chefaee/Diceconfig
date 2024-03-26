@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class GeneralUIScript : MonoBehaviour
 {
+    [SerializeField] InformationController informationController;
+
     public int numberOfDice;
     public int numberOfEyes;
     public string diceType;

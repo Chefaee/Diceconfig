@@ -10,6 +10,8 @@ using UnityEditor.PackageManager.Requests;
 
 public class DiceScript : MonoBehaviour
 {
+    [SerializeField] InformationController informationController;
+
     [SerializeField] GameObject wholeDiceGameObject;
     [SerializeField] Image diceForm;
     [SerializeField] Image diceEyes;
