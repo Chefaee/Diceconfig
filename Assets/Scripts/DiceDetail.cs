@@ -2,17 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InformationController : MonoBehaviour
+public class DiceDetail : MonoBehaviour
 {
-    public static string diceType;
-    public static int diceAmount;
-    public static List<string> diceColours;
-    public static int eyesAmount;
-
-    public static DiceInfo[] diceInfos = new DiceInfo[5];
+    public static List<Dice> dices = new List<Dice>();
 }
 
-public class DiceInfo
+public class Dice
 {
     public string colour;
     public int eyes;
