@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ConfigDiceScript : MonoBehaviour
 {
@@ -19,8 +20,14 @@ public class ConfigDiceScript : MonoBehaviour
 
     private void Start()
     {
+        InformationController.diceInfos[diceNumber] = new DiceInfo();
+
+        // Initialize color
+        diceFormImage.sprite = Resources.Load<Sprite>("Images/" + diceType + "/" + diceColour);
+
         InformationController.diceInfos[diceNumber].colour = diceColour;
         InformationController.diceInfos[diceNumber].eyes = minEyes;
+    
 
         diceEyesTextField.onValueChanged.AddListener(OnTextValueChanged);
 
@@ -30,6 +37,10 @@ public class ConfigDiceScript : MonoBehaviour
             });
     }
 
+    /// <summary>
+    ///  HEhehehehe
+    /// </summary>
+    /// <param name="newText"> quak quak </param>
     public void OnTextValueChanged(string newText)
     {
         diceMultiEye.gameObject.SetActive(false);
@@ -48,7 +59,7 @@ public class ConfigDiceScript : MonoBehaviour
             } else
             {
                 Debug.Log("Input: " + newText);
-                if (amounteyes > 6)
+                if (amounteyes > 6 && amounteyes < 9)
                 {
                     diceType = "Prism";
                 }
@@ -75,8 +86,8 @@ public class ConfigDiceScript : MonoBehaviour
                 } else
                 {
                     diceEyesImage.gameObject.SetActive(false);
-                    diceMultiEye.text = newText;
                     diceMultiEye.gameObject.SetActive(true);
+                    diceMultiEye.text = newText;
                 }
             }
           

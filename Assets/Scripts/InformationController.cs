@@ -9,9 +9,12 @@ public class InformationController : MonoBehaviour
     public static List<string> diceColours;
     public static int eyesAmount;
 
-    public static DiceInfo[] diceInfos = new DiceInfo[5];
+    public static DiceInfo[] diceInfos = new DiceInfo[6];
 }
 
+/// <summary>
+/// 
+/// </summary>
 public class DiceInfo
 {
     public string colour;

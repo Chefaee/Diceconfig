@@ -8,15 +8,31 @@ using UnityEngine.UI;
 
 public class MenuScript : MonoBehaviour
 {
-    [SerializeField] Button throwingDiceButton;
     // https://stackoverflow.com/questions/52376881/how-to-access-a-unitys-textmesh-pro-dropdown-component-via-code
     [SerializeField] TMP_Dropdown diceAmountDropDown;
-    [SerializeField] Button quitButton;
     private int diceAmount;
     [SerializeField] List<GameObject> diceObjects;
 
+    [SerializeField] Button throwDiceButton;
+    [SerializeField] Button quitButton;
+
+
+    private void switchSceneToGame()
+    {
+        SceneManager.LoadScene(1);
+    }
+
+    private void quit()
+    {
+        Debug.Log("Quitting...");
+    }
+
     private void Start()
     {
+        // https://docs.unity3d.com/2019.1/Documentation/ScriptReference/UI.Button-onClick.html
+        throwDiceButton.onClick.AddListener(switchSceneToGame);
+        quitButton.onClick.AddListener(quit);
+
         // default
         // https://stackoverflow.com/questions/18863187/how-can-i-loop-through-a-listt-and-grab-each-item
         foreach (GameObject obj in diceObjects)
@@ -88,17 +104,6 @@ public class MenuScript : MonoBehaviour
             }
         }
      */
-
-    public void startThrowing()
-    {
-        // Switch Scenes...
-        SceneManager.LoadScene(1);
-    }
-
-    public void Stop()
-    {
-        Debug.Log("quitting...");
-    }
 
     // alt - Dokumentation
     /*
