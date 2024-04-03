@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class InformationController : MonoBehaviour
 {
-    public string diceType;
-    public int diceAmount;
-    public List<string> diceColours;
-    public int eyesAmount;
+    public static string diceType;
+    public static int diceAmount;
+    public static List<string> diceColours;
+    public static int eyesAmount;
 }

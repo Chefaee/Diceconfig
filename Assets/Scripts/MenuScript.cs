@@ -9,13 +9,7 @@ public class MenuScript : MonoBehaviour
 {
     [SerializeField] Button throwingDiceButton;
     [SerializeField] GameObject diceAmountTextField;
-    [SerializeField] GameObject eyesAmountTextField;
-    [SerializeField] Toggle multiColoured;
-    [SerializeField] GameObject colourDiceDropDownFirst;
-    [SerializeField] GameObject colourDropDownSecond;
     [SerializeField] Button quitButton;
-
-    [SerializeField] InformationController informationController;
 
     public void startThrowing()
     {
@@ -33,8 +27,8 @@ public class MenuScript : MonoBehaviour
             int eyesInt = int.Parse(eyesStr);
             if (amountInt > 0 || eyesInt > 0)
             {
-                informationController.diceAmount = amountInt;
-                informationController.eyesAmount = eyesInt;
+                InformationController.diceAmount = amountInt;
+                InformationController.eyesAmount = eyesInt;
 
                 switch (eyesInt)
                 {
@@ -45,21 +39,21 @@ public class MenuScript : MonoBehaviour
                     case 5:
                     case 6:
                         {
-                            informationController.diceType = "Dice";
-                            informationController.diceAmount = amount;
+                            InformationController.diceType = "Dice";
+                            InformationController.diceAmount = amount;
                             break;
                         }
                     case 7:
                     case 8:
                         {
-                            informationController.diceType = "Prism";
-                            informationController.diceAmount = amount;
+                            InformationController.diceType = "Prism";
+                            InformationController.diceAmount = amount;
                             break;
                         }
                     default:
                         {
-                            informationController.diceType = "Multi";
-                            informationController.diceAmount = amount;
+                            InformationController.diceType = "Multi";
+                            InformationController.diceAmount = amount;
                             break;
                         }
                 }
@@ -67,6 +61,10 @@ public class MenuScript : MonoBehaviour
                 // load scene
                 // https://docs.unity3d.com/ScriptReference/SceneManagement.SceneManager.LoadScene.html
                 SceneManager.LoadScene(1);
+
+                Debug.Log("Dice Type:" + InformationController.diceType);
+                Debug.Log("diceAmount:" + InformationController.diceAmount);
+                Debug.Log("eyesAmount:" + InformationController.eyesAmount);
             } else
             {
                 // stop everything and display error message somewhere...
