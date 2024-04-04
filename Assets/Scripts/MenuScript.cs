@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,7 +12,7 @@ public class MenuScript : MonoBehaviour
 {
     // https://stackoverflow.com/questions/52376881/how-to-access-a-unitys-textmesh-pro-dropdown-component-via-code
     [SerializeField] TMP_Dropdown diceAmountDropDown;
-    private int diceAmount;
+    private int _diceAmount;
     [SerializeField] List<GameObject> diceObjects;
 
     [SerializeField] Button throwDiceButton;
@@ -23,7 +21,7 @@ public class MenuScript : MonoBehaviour
     /// <summary>
     /// Starts the GameScene.
     /// </summary>
-    private void switchSceneToGame()
+    private static void SwitchSceneToGame()
     {
         SceneManager.LoadScene(1);
     }
@@ -31,7 +29,7 @@ public class MenuScript : MonoBehaviour
     /// <summary>
     /// Quits the Game.
     /// </summary>
-    private void quit()
+    private static void Quit()
     {
         Debug.Log("Quitting...");
         Application.Quit();
@@ -44,8 +42,8 @@ public class MenuScript : MonoBehaviour
     private void Start()
     {
         // https://docs.unity3d.com/2019.1/Documentation/ScriptReference/UI.Button-onClick.html
-        throwDiceButton.onClick.AddListener(switchSceneToGame);
-        quitButton.onClick.AddListener(quit);
+        throwDiceButton.onClick.AddListener(SwitchSceneToGame);
+        quitButton.onClick.AddListener(Quit);
 
         // default
         // https://stackoverflow.com/questions/18863187/how-can-i-loop-through-a-listt-and-grab-each-item
@@ -55,10 +53,10 @@ public class MenuScript : MonoBehaviour
         }
 
         int selectedIndex = diceAmountDropDown.value;
-        diceAmount = selectedIndex + 1;
-        InformationController.diceAmount = diceAmount;
+        _diceAmount = selectedIndex + 1;
+        InformationController.diceAmount = _diceAmount;
 
-        for (int i = 0; i < diceAmount; i++)
+        for (int i = 0; i < _diceAmount; i++)
         {
             diceObjects[i].SetActive(true);
         }
@@ -74,7 +72,7 @@ public class MenuScript : MonoBehaviour
     /// Activates the dice objects respectively to the amount.
     /// </summary>
     /// <param name="amountDropDown"></param>
-    public void OnAmountDropDownValueChanged(TMP_Dropdown amountDropDown)
+    void OnAmountDropDownValueChanged(TMP_Dropdown amountDropDown)
     {
         // default
         // https://stackoverflow.com/questions/18863187/how-can-i-loop-through-a-listt-and-grab-each-item
@@ -86,14 +84,14 @@ public class MenuScript : MonoBehaviour
         // Enable Objects depending on Dropdown value...
         int selectedIndex = amountDropDown.value;
         /*
-         * eig müsste der Wert so ausgelesen werden:
+         * eig mÃ¼sste der Wert so ausgelesen werden:
          * string selectedOption = dropdown.options[selectedIndex].text;
-         * aber da es bei mir eh nur statische integer sind, überspringe ich das mal
+         * aber da es bei mir eh nur statische integer sind, Ã¼berspringe ich das mal
          */
-        diceAmount = selectedIndex+1;
-        InformationController.diceAmount = diceAmount;
+        _diceAmount = selectedIndex+1;
+        InformationController.diceAmount = _diceAmount;
 
-        for (int i = 0; i < diceAmount; i++)
+        for (int i = 0; i < _diceAmount; i++)
         {
             diceObjects[i].SetActive(true);
         }

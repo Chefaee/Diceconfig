@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
@@ -22,38 +18,36 @@ public class InitGameDice : MonoBehaviour
     [SerializeField] TextMeshProUGUI? rollAmountTMP;
     [SerializeField] GameObject? chains;
 
-    private string diceType;
+    private string _diceType;
 
     /// <summary>
-    /// Start-Function to initialize the dice's display.
+    /// Start-Function to initialize the dice' display.
     /// </summary>
     void Start()
     {
-        diceType = InformationController.diceInfos[diceNumber].type;
-        setNewForm(InformationController.diceInfos[diceNumber].colour);
-        setNewEye(InformationController.diceInfos[diceNumber].eyes);
+        _diceType = InformationController.DiceInfos[diceNumber].GetDiceType();
+        SetNewForm(InformationController.DiceInfos[diceNumber].GetColour());
+        SetNewEye(InformationController.DiceInfos[diceNumber].GetEyes());
     }
 
     /// <summary>
     /// Function to change the eye image.
     /// </summary>
     /// <param name="newEyes">int of the eye</param>
-    public void setNewEye(int newEyes)
+    public void SetNewEye(int newEyes)
     {
-        if (diceType == "Multi")
+        if (_diceType == "Multi")
         {
             diceEyesImage.gameObject.SetActive(false);
             multiEyeTMP.gameObject.SetActive(true);
             multiEyeTMP.text = newEyes.ToString();
         }
-
         else
         {
             multiEyeTMP.gameObject.SetActive(false);
             diceEyesImage.gameObject.SetActive(true);
             // change eye image
-            diceEyesImage.sprite = Resources.Load<Sprite>("Images/" + diceType + "/Eyes/" + newEyes.ToString());
-
+            diceEyesImage.sprite = Resources.Load<Sprite>("Images/" + _diceType + "/Eyes/" + newEyes);
         }
     }
 
@@ -61,15 +55,12 @@ public class InitGameDice : MonoBehaviour
     /// Function to set the dice colour.
     /// </summary>
     /// <param name="newColour">String for the new colour of the dice</param>
-    public void setNewForm(string newColour)
+    void SetNewForm(string newColour)
     {
-        if (mini)
-        {
-            newColour = "Blue";
-        } 
+        if (mini) newColour = "Blue";
 
         // change form image
-        diceFormImage.sprite = Resources.Load<Sprite>("Images/" + diceType + "/" + newColour);
+        diceFormImage.sprite = Resources.Load<Sprite>("Images/" + _diceType + "/" + newColour);
 
     }
 
@@ -77,28 +68,28 @@ public class InitGameDice : MonoBehaviour
     /// Function for the statistics. Sets the Text next to the images.
     /// </summary>
     /// <param name="rollAmount">string of the rolled amount (converted int to string)</param>
-    public void setRollAmountTMP(string rollAmount)
+    public void SetRollAmountTMP(string rollAmount)
     {
-        rollAmountTMP.text = " x"+rollAmount;
+        if (rollAmountTMP != null) rollAmountTMP.text = " x" + rollAmount;
     }
 
     /// <summary>
     /// Function to block/chain dice, to keep the current eyes.
     /// Activates the chains image.
     /// </summary>
-    public void blockDice()
+    public void BlockDice()
     {
-        if (chains.activeSelf)
+        if (chains != null && chains.activeSelf)
         {
             chains.gameObject.SetActive(false);
             // add info in Controller
-            InformationController.diceInfos[diceNumber].setBlocked(false);
+            InformationController.DiceInfos[diceNumber].SetBlocked(false);
         } 
-        else 
+        else
         {
-            chains.gameObject.SetActive(true);
+            if (chains != null) chains.gameObject.SetActive(true);
             // add info in controller
-            InformationController.diceInfos[diceNumber].setBlocked(true);
+            InformationController.DiceInfos[diceNumber].SetBlocked(true);
         }
     }
 }

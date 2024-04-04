@@ -1,18 +1,15 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using TMPro;
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
-/// Major Class/Script for the Game Scene. Controlls all buttons and dice displays.
+/// Major Class/Script for the Game Scene. Controls all buttons and dice displays.
 /// </summary>
 public class GameScript : MonoBehaviour
 {
-    private int diceAmount;
+    private int _diceAmount;
     [SerializeField] List<GameObject> diceObjects;
     [SerializeField] List<GameObject> miniDiceStatistics;
     [SerializeField] TextMeshProUGUI roundTMP;
@@ -21,19 +18,19 @@ public class GameScript : MonoBehaviour
     [SerializeField] Button newThrowButton;
     [SerializeField] Button backToMenuButton;
 
-    private int round = 0;
+    private int _round = 0;
 
-    private Dictionary<int, int> counts;
+    private Dictionary<int, int> _counts;
 
     /// <summary>
     /// Start-Function to set default dice images.
     /// </summary>
     private void Start()
     {
-        backToMenuButton.onClick.AddListener(switchSceneToMenu);
-        newThrowButton.onClick.AddListener(newThrow);
+        backToMenuButton.onClick.AddListener(SwitchSceneToMenu);
+        newThrowButton.onClick.AddListener(NewThrow);
 
-        diceAmount = InformationController.diceAmount;
+        _diceAmount = InformationController.diceAmount;
 
         // default
         // https://stackoverflow.com/questions/18863187/how-can-i-loop-through-a-listt-and-grab-each-item
@@ -47,7 +44,7 @@ public class GameScript : MonoBehaviour
             obj.SetActive(false);
         }
 
-        for (int i = 0; i < diceAmount; i++)
+        for (int i = 0; i < _diceAmount; i++)
         {
             diceObjects[i].SetActive(true);
         }
@@ -56,25 +53,25 @@ public class GameScript : MonoBehaviour
     /// <summary>
     /// Switches to Menu Scene after button was clicked/pressed.
     /// </summary>
-    private void switchSceneToMenu()
+    private static void SwitchSceneToMenu()
     {
         SceneManager.LoadScene(0);
     }
 
     /// <summary>
-    /// Funciton to start a new roll/throw after the button was clicked/pressed.
+    /// Function to start a new roll/throw after the button was clicked/pressed.
     /// Respects chained/blocked dice.
     /// </summary>
-    private void newThrow()
+    private void NewThrow()
     {
-        counts = new Dictionary<int, int>(); ;
-        round++;
+        _counts = new Dictionary<int, int>(); ;
+        _round++;
         int sum = 0;
-        for (int i = 0; i < diceAmount; i++)
+        for (int i = 0; i < _diceAmount; i++)
         {
-            if (!InformationController.diceInfos[i].isBlocked())
+            if (!InformationController.DiceInfos[i].IsBlocked())
             {
-                int max = InformationController.diceInfos[i].eyes;
+                int max = InformationController.DiceInfos[i].GetEyes();
                 // https://stackoverflow.com/questions/3975290/produce-a-random-number-in-a-range-using-c-sharp
                 System.Random rnd = new System.Random();
                 int dice = rnd.Next(1, max + 1);
@@ -82,26 +79,24 @@ public class GameScript : MonoBehaviour
                 InitGameDice initGameDiceScript = diceObjects[i].GetComponent<InitGameDice>();
                 if (initGameDiceScript != null)
                 {
-                    initGameDiceScript.setNewEye(dice);
+                    initGameDiceScript.SetNewEye(dice);
                 }
-                InformationController.diceInfos[i].setCurrentEyes(dice);
+                InformationController.DiceInfos[i].SetCurrentEyes(dice);
 
-                if (counts.ContainsKey(dice)) counts[dice]++;
-                else counts[dice] = 1;
+                if (!_counts.TryAdd(dice, 1)) _counts[dice]++;
             } 
             else
             {
-                int blockedEyes = InformationController.diceInfos[i].getCurrentEyes();
+                int blockedEyes = InformationController.DiceInfos[i].GetCurrentEyes();
                 Debug.Log("Blocked Eyes/ current Eyes: " + blockedEyes);
 
                 sum += blockedEyes;
-                if (counts.ContainsKey(blockedEyes)) counts[blockedEyes]++;
-                else counts[blockedEyes] = 1;
+                if (!_counts.TryAdd(blockedEyes, 1)) _counts[blockedEyes]++;
             }
 
         }
         sumTMP.text = sum.ToString();
-        roundTMP.text = round.ToString();
+        roundTMP.text = _round.ToString();
 
         foreach (GameObject obj in miniDiceStatistics)
         {
@@ -109,19 +104,17 @@ public class GameScript : MonoBehaviour
         }
 
         // edit statistics here
-        List<KeyValuePair<int, int>> keyValuePairs = new List<KeyValuePair<int, int>>(counts);
+        List<KeyValuePair<int, int>> keyValuePairs = new List<KeyValuePair<int, int>>(_counts);
         for (int i = 0; i < keyValuePairs.Count; i++)
         {
             int augenzahl = keyValuePairs[i].Key;
             int anzahl = keyValuePairs[i].Value;
 
             InitGameDice initGameDiceScript = miniDiceStatistics[i].GetComponent<InitGameDice>();
-            if (initGameDiceScript != null)
-            {
-                miniDiceStatistics[i].SetActive(true);
-                initGameDiceScript.setNewEye(augenzahl);
-                initGameDiceScript.setRollAmountTMP(anzahl.ToString());
-            }
+            if (initGameDiceScript == null) continue;
+            miniDiceStatistics[i].SetActive(true);
+            initGameDiceScript.SetNewEye(augenzahl);
+            initGameDiceScript.SetRollAmountTMP(anzahl.ToString());
         }
     }
 }

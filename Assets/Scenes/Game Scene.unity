@@ -1044,7 +1044,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 194021364}
           m_TargetAssemblyTypeName: InitGameDice, Assembly-CSharp
-          m_MethodName: blockDice
+          m_MethodName: BlockDice
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1371,7 +1371,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 372695561}
           m_TargetAssemblyTypeName: InitGameDice, Assembly-CSharp
-          m_MethodName: blockDice
+          m_MethodName: BlockDice
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -4042,7 +4042,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1253961632}
           m_TargetAssemblyTypeName: InitGameDice, Assembly-CSharp
-          m_MethodName: blockDice
+          m_MethodName: BlockDice
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -4529,7 +4529,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1381795565}
           m_TargetAssemblyTypeName: InitGameDice, Assembly-CSharp
-          m_MethodName: blockDice
+          m_MethodName: BlockDice
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -7838,7 +7838,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 2019473461}
           m_TargetAssemblyTypeName: InitGameDice, Assembly-CSharp
-          m_MethodName: blockDice
+          m_MethodName: BlockDice
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -8199,7 +8199,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 2086687742}
           m_TargetAssemblyTypeName: InitGameDice, Assembly-CSharp
-          m_MethodName: blockDice
+          m_MethodName: BlockDice
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

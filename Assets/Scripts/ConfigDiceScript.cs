@@ -1,7 +1,6 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Class/Script for the Menu Scene.
@@ -11,14 +10,14 @@ public class ConfigDiceScript : MonoBehaviour
 {
     [SerializeField] TMP_Dropdown diceColourDropDown;
     [SerializeField] TMP_InputField diceEyesTextField;
-    private int minEyes = 1;
-    private int maxEyes = 120;
+    const int MinEyes = 1;
+    const int MaxEyes = 120;
     [SerializeField] int diceNumber;
 
     // Default
-    private string diceType = "Dice";
-    private string diceColour = "Blue";
-    private int diceEyes = 6;
+    private string _diceType = "Dice";
+    private string _diceColour = "Blue";
+    const int DiceEyes = 6;
 
     [SerializeField] Image diceFormImage;
     [SerializeField] Image diceEyesImage;
@@ -29,12 +28,12 @@ public class ConfigDiceScript : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        InformationController.diceInfos[diceNumber] = new DiceInfo();
+        InformationController.DiceInfos[diceNumber] = new DiceInfo();
 
         // Setup Default
-        diceFormImage.sprite = Resources.Load<Sprite>("Images/" + diceType + "/" + diceColour);
-        InformationController.diceInfos[diceNumber].colour = diceColour;
-        OnTextValueChanged(diceEyes.ToString());
+        diceFormImage.sprite = Resources.Load<Sprite>("Images/" + _diceType + "/" + _diceColour);
+        InformationController.DiceInfos[diceNumber].SetColour(_diceColour);
+        OnTextValueChanged(DiceEyes.ToString());
 
         diceEyesTextField.onValueChanged.AddListener(OnTextValueChanged);
 
@@ -50,57 +49,50 @@ public class ConfigDiceScript : MonoBehaviour
     /// A default is set if the input is not valid.
     /// </summary>
     /// <param name="newText">New input in the TextField</param>
-    public void OnTextValueChanged(string newText)
+    void OnTextValueChanged(string newText)
     {
         diceMultiEye.gameObject.SetActive(false);
         diceEyesImage.gameObject.SetActive(true);
 
         // Change Image depending on String...
         // https://discussions.unity.com/t/how-to-get-text-from-textmeshpro-input-field/215584
-        bool successDiceAmount = int.TryParse(newText, out var amounteyes);
-        if (successDiceAmount)
+        bool successDiceAmount = int.TryParse(newText, out int _);
+        if (!successDiceAmount) return;
+        int amountEyesInt = int.Parse(newText);
+        // Warum neuer Parse statt von TryParse? -> In einem StackOverflow stand,
+        //  dass bei "10" "1" oder so rauskommt, also lieber safe...
+        if (amountEyesInt is > MaxEyes or < MinEyes)
         {
-            int amountInt = int.Parse(newText);
-            Debug.Log("amountInt: " + amountInt.ToString());
-            // Warum neuer Parse statt amounteyes? -> In einem StackOverflow stand, dass bei "10" "1" rauskommt, also lieber safe...
-            if (amounteyes > maxEyes || amounteyes < minEyes)
+            Debug.Log("Not a valid input! Setting Default");
+            InformationController.DiceInfos[diceNumber].SetEyes(6);
+            _diceType = "Dice";
+            diceEyesImage.sprite = Resources.Load<Sprite>("Images/" + _diceType + "/Eyes/6");
+        } else
+        {
+            _diceType = amountEyesInt switch
             {
-                Debug.Log("Not a valid input! Setting Default");
-                InformationController.diceInfos[diceNumber].setEyes(6);
-                diceType = "Dice";
-                diceEyesImage.sprite = Resources.Load<Sprite>("Images/" + diceType + "/Eyes/6");
-            } else
+                > 6 and < 9 => "Prism",
+                > 8 => "Multi",
+                _ => "Dice"
+            };
+
+            InformationController.DiceInfos[diceNumber].SetDiceType(_diceType);
+
+            // set preview image and dice info depending on value...
+            InformationController.DiceInfos[diceNumber].SetEyes(amountEyesInt);
+
+            if (_diceType != "Multi")
             {
-                if (amounteyes > 6 && amounteyes < 9)
-                {
-                    diceType = "Prism";
-                }
-                else if (amounteyes > 8)
-                {
-                    diceType = "Multi";
-                }
-                else 
-                {
-                    diceType = "Dice";
-                }
-
-                InformationController.diceInfos[diceNumber].setType(diceType);
-
-                // set preview image and dice info depending on value...
-                InformationController.diceInfos[diceNumber].setEyes(amounteyes);
-
-                if (diceType != "Multi")
-                {
-                    // Initialize eye image
-                    diceFormImage.sprite = Resources.Load<Sprite>("Images/" + diceType + "/" + diceColour);
-                    diceEyesImage.sprite = Resources.Load<Sprite>("Images/" + diceType + "/Eyes/" + amounteyes.ToString());
-                } else
-                {
-                    diceFormImage.sprite = Resources.Load<Sprite>("Images/" + diceType + "/" + diceColour);
-                    diceEyesImage.gameObject.SetActive(false);
-                    diceMultiEye.gameObject.SetActive(true);
-                    diceMultiEye.text = newText;
-                }
+                // Initialize eye image
+                diceFormImage.sprite = Resources.Load<Sprite>("Images/" + _diceType + "/" + _diceColour);
+                diceEyesImage.sprite = Resources.Load<Sprite>("Images/" + _diceType + "/Eyes/" + amountEyesInt);
+            } 
+            else
+            {
+                diceFormImage.sprite = Resources.Load<Sprite>("Images/" + _diceType + "/" + _diceColour);
+                diceEyesImage.gameObject.SetActive(false);
+                diceMultiEye.gameObject.SetActive(true);
+                diceMultiEye.text = newText;
             }
         }
     }
@@ -110,45 +102,28 @@ public class ConfigDiceScript : MonoBehaviour
     /// Default for the dice is "Blue".
     /// </summary>
     /// <param name="colourDropDown">The Dropdown-Instance (Object)</param>
-    public void OnAmountDropDownValueChanged(TMP_Dropdown colourDropDown)
+    void OnAmountDropDownValueChanged(TMP_Dropdown colourDropDown)
     {
          // Set preview image and dice info depending on dropdown value...
         int selectedIndex = colourDropDown.value;
-        diceColour = colourDropDown.options[selectedIndex].text;
+        _diceColour = colourDropDown.options[selectedIndex].text;
 
-        switch (diceColour)
+        _diceColour = _diceColour switch
         {
-            case "Blau": 
-                diceColour = "Blue";
-                break;
-            case "Rot":
-                diceColour = "Red";
-                break;
-            case "Grün":
-                diceColour = "Green";
-                break;
-            case "Gelb":
-                diceColour = "Yellow";
-                break;
-            case "Grau":
-                diceColour = "Grey";
-                break;
-            // redundant aber für die Vollständigkeit
-            case "Pink":
-                diceColour = "Pink";
-                break;
-            case "Weiß":
-                diceColour = "White";
-                break;
-            // Dürfte nie auftreten
-            default:
-                diceColour = "Blue";
-                break;
-        }
+            "Blau" => "Blue",
+            "Rot" => "Red",
+            "GrÃ¼n" => "Green",
+            "Gelb" => "Yellow",
+            "Grau" => "Grey",
+            // redundant, aber fÃ¼r die VollstÃ¤ndigkeit
+            "Pink" => "Pink",
+            "WeiÃŸ" => "White",
+            _ => "Blue"
+        };
 
-        InformationController.diceInfos[diceNumber].setColour(diceColour);
+        InformationController.DiceInfos[diceNumber].SetColour(_diceColour);
 
         // Initialize color
-        diceFormImage.sprite = Resources.Load<Sprite>("Images/" + diceType + "/" + diceColour);
+        diceFormImage.sprite = Resources.Load<Sprite>("Images/" + _diceType + "/" + _diceColour);
     }
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -7,41 +5,34 @@ using UnityEngine;
 /// </summary>
 public class InformationController : MonoBehaviour
 {
-    public static string diceType;
     public static int diceAmount;
-    public static List<string> diceColours;
-    public static int eyesAmount;
-
-    public static DiceInfo[] diceInfos = new DiceInfo[6];
+    public static readonly DiceInfo[] DiceInfos = new DiceInfo[6];
 }
 
 /// <summary>
-/// Sub class for the array which holds the major dice informations.
+/// Sub class for the array which holds the major dice information.
 /// Has getter and setter functions, but variables can be assessed freely nontheless.
 /// </summary>
 public class DiceInfo
 {
-    public string colour;
-    public int eyes;
-    public string type;
-    public bool blocked;
-    public int currentEyes;
+    string _colour;
+    int _eyes;
+    string _type;
+    bool _blocked;
+    int _currentEyes;
 
-    public int getEyes() { return eyes; }
+    public int GetEyes() { return _eyes;}
+    public void SetEyes(int eyes) { _eyes = eyes; }
 
-    public string getColour() { return colour; }
+    public void SetColour(string colour) { _colour = colour; }
+    public string GetColour() { return _colour; }
 
-    public void setEyes(int eyes) { this.eyes = eyes; }
+    public void SetDiceType(string type) { _type = type; }
+    public string GetDiceType() { return _type; }
 
-    public void setColour(string colour) { this.colour = colour; }
+    public bool IsBlocked() { return _blocked; }
+    public void SetBlocked(bool blocked) {  _blocked = blocked; }   
 
-    public void setType(string type) { this.type = type; }
-
-    public bool isBlocked() { return blocked; }
-
-    public void setBlocked(bool blocked) {  this.blocked = blocked; }   
-
-    public int getCurrentEyes() { return currentEyes;}
-
-    public void setCurrentEyes(int currentEyes) { this.currentEyes = currentEyes; }
+    public int GetCurrentEyes() { return _currentEyes;}
+    public void SetCurrentEyes(int currentEyes) { _currentEyes = currentEyes; }
 }
