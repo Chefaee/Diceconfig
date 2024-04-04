@@ -40,8 +40,21 @@ public class InitGameDice : MonoBehaviour
     /// <param name="newEyes">int of the eye</param>
     public void setNewEye(int newEyes)
     {
-        // change eye image
-        diceEyesImage.sprite = Resources.Load<Sprite>("Images/" + diceType + "/Eyes/" + newEyes.ToString());
+        if (diceType == "Multi")
+        {
+            diceEyesImage.gameObject.SetActive(false);
+            multiEyeTMP.gameObject.SetActive(true);
+            multiEyeTMP.text = newEyes.ToString();
+        }
+
+        else
+        {
+            multiEyeTMP.gameObject.SetActive(false);
+            diceEyesImage.gameObject.SetActive(true);
+            // change eye image
+            diceEyesImage.sprite = Resources.Load<Sprite>("Images/" + diceType + "/Eyes/" + newEyes.ToString());
+
+        }
     }
 
     /// <summary>

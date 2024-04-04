@@ -96,6 +96,7 @@ public class ConfigDiceScript : MonoBehaviour
                     diceEyesImage.sprite = Resources.Load<Sprite>("Images/" + diceType + "/Eyes/" + amounteyes.ToString());
                 } else
                 {
+                    diceFormImage.sprite = Resources.Load<Sprite>("Images/" + diceType + "/" + diceColour);
                     diceEyesImage.gameObject.SetActive(false);
                     diceMultiEye.gameObject.SetActive(true);
                     diceMultiEye.text = newText;
