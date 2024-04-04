@@ -11,7 +11,6 @@ public class InformationController : MonoBehaviour
 
 /// <summary>
 /// Sub class for the array which holds the major dice information.
-/// Has getter and setter functions, but variables can be assessed freely nontheless.
 /// </summary>
 public class DiceInfo
 {
