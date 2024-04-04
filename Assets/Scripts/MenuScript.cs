@@ -6,6 +6,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/// <summary>
+/// Class/Script for the Menu Scene.
+/// Controlls the behaviour of buttons and gives commands to the dice objects.
+/// </summary>
 public class MenuScript : MonoBehaviour
 {
     // https://stackoverflow.com/questions/52376881/how-to-access-a-unitys-textmesh-pro-dropdown-component-via-code
@@ -16,17 +20,27 @@ public class MenuScript : MonoBehaviour
     [SerializeField] Button throwDiceButton;
     [SerializeField] Button quitButton;
 
-
+    /// <summary>
+    /// Starts the GameScene.
+    /// </summary>
     private void switchSceneToGame()
     {
         SceneManager.LoadScene(1);
     }
 
+    /// <summary>
+    /// Quits the Game.
+    /// </summary>
     private void quit()
     {
         Debug.Log("Quitting...");
+        Application.Quit();
     }
 
+    /// <summary>
+    /// Start-Function to add listeners to buttons/dice amount dropdown.
+    /// Deactivates the dice objects.
+    /// </summary>
     private void Start()
     {
         // https://docs.unity3d.com/2019.1/Documentation/ScriptReference/UI.Button-onClick.html
@@ -55,6 +69,11 @@ public class MenuScript : MonoBehaviour
             });
     }
 
+    /// <summary>
+    /// Function that gets called when the dice amount dropdown's value changes.
+    /// Activates the dice objects respectively to the amount.
+    /// </summary>
+    /// <param name="amountDropDown"></param>
     public void OnAmountDropDownValueChanged(TMP_Dropdown amountDropDown)
     {
         // default
@@ -72,7 +91,6 @@ public class MenuScript : MonoBehaviour
          * aber da es bei mir eh nur statische integer sind, überspringe ich das mal
          */
         diceAmount = selectedIndex+1;
-        Debug.Log("Dice amount:" + diceAmount);
         InformationController.diceAmount = diceAmount;
 
         for (int i = 0; i < diceAmount; i++)
@@ -80,90 +98,4 @@ public class MenuScript : MonoBehaviour
             diceObjects[i].SetActive(true);
         }
     }
-
-    // doku - auslesen von Textfeld
-    /*
-     * // Change Image depending on String...
-        // https://discussions.unity.com/t/how-to-get-text-from-textmeshpro-input-field/215584
-        bool successDiceAmount = int.TryParse(newText, out var amounteyes);
-        if (successDiceAmount) {
-            int amountInt = int.Parse(newText);
-            // Warum neuer Parse statt amounteyes? -> In einem StackOverflow stand, dass bei "10" "1" rauskommt, also lieber safe...
-            switch (amounteyes) { 
-                case 0:
-                    Debug.Log("0 detected, no valid input");
-                break;
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                    Debug.Log("Valid input between ")
-
-            }
-        }
-     */
-
-    // alt - Dokumentation
-    /*
-     * // give Info of dice amount, eyes amount, colours to second scene
-        // https://discussions.unity.com/t/how-to-get-text-from-textmeshpro-input-field/215584
-        string amountStr = diceAmountTextField.GetComponent<TMP_InputField>().text;
-        bool successAmount = int.TryParse(amountStr, out var amount);
-
-        string eyesStr = eyesAmountTextField.GetComponent<TMP_InputField>().text;
-        bool successEyes = int.TryParse(eyesStr, out var amounteyes);
-
-        if (successAmount && successEyes)
-        {
-            int amountInt = int.Parse(amountStr);
-            int eyesInt = int.Parse(eyesStr);
-            if (amountInt > 0 || eyesInt > 0)
-            {
-                InformationController.diceAmount = amountInt;
-                InformationController.eyesAmount = eyesInt;
-
-                switch (eyesInt)
-                {
-                    case 1:
-                    case 2:
-                    case 3:
-                    case 4:
-                    case 5:
-                    case 6:
-                        {
-                            InformationController.diceType = "Dice";
-                            InformationController.diceAmount = amount;
-                            break;
-                        }
-                    case 7:
-                    case 8:
-                        {
-                            InformationController.diceType = "Prism";
-                            InformationController.diceAmount = amount;
-                            break;
-                        }
-                    default:
-                        {
-                            InformationController.diceType = "Multi";
-                            InformationController.diceAmount = amount;
-                            break;
-                        }
-                }
-
-                // load scene
-                // https://docs.unity3d.com/ScriptReference/SceneManagement.SceneManager.LoadScene.html
-                SceneManager.LoadScene(1);
-
-                Debug.Log("Dice Type:" + InformationController.diceType);
-                Debug.Log("diceAmount:" + InformationController.diceAmount);
-                Debug.Log("eyesAmount:" + InformationController.eyesAmount);
-            } else
-            {
-                // stop everything and display error message somewhere...
-
-            }
-        } 
-     */
 }

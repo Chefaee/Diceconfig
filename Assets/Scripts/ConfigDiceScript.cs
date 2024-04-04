@@ -3,6 +3,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Class/Script for the Menu Scene.
+/// Controlls dice previews and settings.
+/// </summary>
 public class ConfigDiceScript : MonoBehaviour
 {
     [SerializeField] TMP_Dropdown diceColourDropDown;
@@ -11,23 +15,26 @@ public class ConfigDiceScript : MonoBehaviour
     private int maxEyes = 120;
     [SerializeField] int diceNumber;
 
+    // Default
     private string diceType = "Dice";
     private string diceColour = "Blue";
+    private int diceEyes = 6;
 
     [SerializeField] Image diceFormImage;
     [SerializeField] Image diceEyesImage;
     [SerializeField] TextMeshProUGUI diceMultiEye;
 
+    /// <summary>
+    /// Start-Function to initialize controller information and to add listeners.
+    /// </summary>
     private void Start()
     {
         InformationController.diceInfos[diceNumber] = new DiceInfo();
 
-        // Initialize color
+        // Setup Default
         diceFormImage.sprite = Resources.Load<Sprite>("Images/" + diceType + "/" + diceColour);
-
         InformationController.diceInfos[diceNumber].colour = diceColour;
-        InformationController.diceInfos[diceNumber].eyes = minEyes;
-    
+        OnTextValueChanged(diceEyes.ToString());
 
         diceEyesTextField.onValueChanged.AddListener(OnTextValueChanged);
 
@@ -38,9 +45,11 @@ public class ConfigDiceScript : MonoBehaviour
     }
 
     /// <summary>
-    ///  HEhehehehe
+    /// Function that gets called by changing values of the eyes TextField.
+    /// Changes the preview display of the dice.
+    /// A default is set if the input is not valid.
     /// </summary>
-    /// <param name="newText"> quak quak </param>
+    /// <param name="newText">New input in the TextField</param>
     public void OnTextValueChanged(string newText)
     {
         diceMultiEye.gameObject.SetActive(false);
@@ -52,13 +61,16 @@ public class ConfigDiceScript : MonoBehaviour
         if (successDiceAmount)
         {
             int amountInt = int.Parse(newText);
+            Debug.Log("amountInt: " + amountInt.ToString());
             // Warum neuer Parse statt amounteyes? -> In einem StackOverflow stand, dass bei "10" "1" rauskommt, also lieber safe...
             if (amounteyes > maxEyes || amounteyes < minEyes)
             {
-                Debug.Log("Not a valid input!");
+                Debug.Log("Not a valid input! Setting Default");
+                InformationController.diceInfos[diceNumber].setEyes(6);
+                diceType = "Dice";
+                diceEyesImage.sprite = Resources.Load<Sprite>("Images/" + diceType + "/Eyes/6");
             } else
             {
-                Debug.Log("Input: " + newText);
                 if (amounteyes > 6 && amounteyes < 9)
                 {
                     diceType = "Prism";
@@ -71,18 +83,17 @@ public class ConfigDiceScript : MonoBehaviour
                 {
                     diceType = "Dice";
                 }
-                Debug.Log("DiceType: " + diceType);
+
+                InformationController.diceInfos[diceNumber].setType(diceType);
 
                 // set preview image and dice info depending on value...
                 InformationController.diceInfos[diceNumber].setEyes(amounteyes);
 
                 if (diceType != "Multi")
                 {
-                    Debug.Log("Eye path: " + "Images/" + diceType + "/Eyes/" + amounteyes);
-
                     // Initialize eye image
-                    Sprite spriteEyes = Resources.Load<Sprite>("Images/" + diceType + "/Eyes/" + amounteyes.ToString());
-                    diceEyesImage.sprite = spriteEyes;
+                    diceFormImage.sprite = Resources.Load<Sprite>("Images/" + diceType + "/" + diceColour);
+                    diceEyesImage.sprite = Resources.Load<Sprite>("Images/" + diceType + "/Eyes/" + amounteyes.ToString());
                 } else
                 {
                     diceEyesImage.gameObject.SetActive(false);
@@ -90,17 +101,19 @@ public class ConfigDiceScript : MonoBehaviour
                     diceMultiEye.text = newText;
                 }
             }
-          
         }
     }
 
+    /// <summary>
+    /// Function that gets called by the listener when the dropdown value is changed.
+    /// Default for the dice is "Blue".
+    /// </summary>
+    /// <param name="colourDropDown">The Dropdown-Instance (Object)</param>
     public void OnAmountDropDownValueChanged(TMP_Dropdown colourDropDown)
     {
          // Set preview image and dice info depending on dropdown value...
         int selectedIndex = colourDropDown.value;
         diceColour = colourDropDown.options[selectedIndex].text;
-        Debug.Log("diceNumber: " + diceNumber);
-        // InformationController.diceInfos[diceNumber].setColour(diceColour);
 
         switch (diceColour)
         {
@@ -119,24 +132,22 @@ public class ConfigDiceScript : MonoBehaviour
             case "Grau":
                 diceColour = "Grey";
                 break;
-
-            // redundant aber für die Vollständigkeit ig
+            // redundant aber für die Vollständigkeit
             case "Pink":
                 diceColour = "Pink";
                 break;
             case "Weiß":
                 diceColour = "White";
                 break;
-
             // Dürfte nie auftreten
             default:
                 diceColour = "Blue";
                 break;
-
         }
 
+        InformationController.diceInfos[diceNumber].setColour(diceColour);
+
         // Initialize color
-        Sprite spriteForm = Resources.Load<Sprite>("Images/" + diceType + "/" + diceColour);
-        diceFormImage.sprite = spriteForm;
+        diceFormImage.sprite = Resources.Load<Sprite>("Images/" + diceType + "/" + diceColour);
     }
 }
